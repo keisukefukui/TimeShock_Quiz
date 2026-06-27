@@ -292,19 +292,22 @@
       .quiz-log      { width: 100%; max-height: 220px; }
     }
 
-    /* ── クイズ中は画面サイズを固定（問題文の長短で変わらない） ── */
+    /* ── クイズ中：画面全体を完全固定（問題文の長短で1ミリも動かない） ── */
     body.quiz-active {
-      height: 100vh;
+      height: 100dvh; /* アドレスバー対応 */
+      height: 100vh;  /* フォールバック */
       overflow: hidden;
-      padding: 10px 12px;
+      padding: 8px 10px;
       align-items: stretch;
     }
     body.quiz-active #screen-quiz {
+      width: 100%;
+      height: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      max-width: 1100px;
-      margin: 0 auto;
     }
     body.quiz-active .quiz-layout {
       flex: 1;
@@ -314,15 +317,50 @@
     body.quiz-active .quiz-main {
       display: flex;
       flex-direction: column;
+      overflow: hidden;
       min-height: 0;
     }
+    /* タイマー・進捗・ボタン：絶対に縮まない固定ブロック */
+    body.quiz-active .timer-wrap,
+    body.quiz-active .progress-big,
+    body.quiz-active .prog-remain,
+    body.quiz-active .btn-row {
+      flex-shrink: 0;
+    }
+    /* ボタン高さを固定（文字数に関係なく同じ高さ） */
+    body.quiz-active .btn-correct,
+    body.quiz-active .btn-end {
+      height: 56px;
+      padding: 0 12px;
+    }
+    /* 問題カード：残りのスペースを全部埋める。文字あふれはカード内スクロール */
     body.quiz-active .q-card {
       flex: 1;
       min-height: 0;
       overflow-y: auto;
     }
-    body.quiz-active .quiz-log {
-      max-height: none;
+    /* 問題文：文字が多い場合はフォントを自動縮小、要素サイズは変えない */
+    body.quiz-active .q-text {
+      font-size: clamp(0.82rem, 3vw, 1.45rem);
+      overflow-wrap: break-word;
+    }
+    body.quiz-active .answer-text {
+      font-size: clamp(0.95rem, 4vw, 2rem);
+      overflow-wrap: break-word;
+    }
+    /* モバイル：ログパネル高さを固定 */
+    @media (max-width: 820px) {
+      body.quiz-active .quiz-log {
+        flex: 0 0 170px;
+        max-height: 170px;
+      }
+    }
+    /* デスクトップ：ログパネルはフル高さ */
+    @media (min-width: 821px) {
+      body.quiz-active .quiz-log {
+        flex: 0 0 260px;
+        max-height: none;
+      }
     }
 
     /* ── END / REVIEW ── */
