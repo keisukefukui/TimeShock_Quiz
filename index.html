@@ -608,8 +608,9 @@
       '<div class="log-q">'  + esc(q.question) + '</div>' +
       '<div class="log-a">'  + esc(q.answer)   + '</div>';
 
-    /* 先頭に挿入（最新が上） */
+    /* 先頭に挿入（最新が上）、直近2問だけ残す */
     list.insertBefore(entry, list.firstChild);
+    while (list.children.length > 2) { list.removeChild(list.lastChild); }
   }
 
   function onCorrect() {
