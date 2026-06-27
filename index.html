@@ -292,6 +292,39 @@
       .quiz-log      { width: 100%; max-height: 220px; }
     }
 
+    /* ── クイズ中は画面サイズを固定（問題文の長短で変わらない） ── */
+    body.quiz-active {
+      height: 100vh;
+      overflow: hidden;
+      padding: 10px 12px;
+      align-items: stretch;
+    }
+    body.quiz-active #screen-quiz {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    body.quiz-active .quiz-layout {
+      flex: 1;
+      min-height: 0;
+      align-items: stretch;
+    }
+    body.quiz-active .quiz-main {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    body.quiz-active .q-card {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+    }
+    body.quiz-active .quiz-log {
+      max-height: none;
+    }
+
     /* ── END / REVIEW ── */
     #screen-end { max-height: 92vh; overflow-y: auto; text-align: center; }
     .end-header { padding: 28px 0 20px; position: sticky; top: 0; background: var(--bg); z-index: 10; }
@@ -435,6 +468,7 @@
   function showScreen(id) {
     document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
     gid(id).classList.add('active');
+    document.body.classList.toggle('quiz-active', id === 'screen-quiz');
   }
 
   function selectDiff(key, btn) {
