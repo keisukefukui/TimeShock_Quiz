@@ -352,18 +352,29 @@
       font-size: clamp(0.95rem, 4vw, 2rem);
       overflow-wrap: break-word;
     }
-    /* モバイル：ログを完全固定サイズに封じ込める */
+    /* モバイル：問題カード固定 → ボタン位置を画面中央やや下で固定 */
     @media (max-width: 820px) {
+      /* quiz-mainはコンテンツ分だけの高さ（伸びない） */
+      body.quiz-active .quiz-main {
+        flex: 0 0 auto;
+      }
+      /* 問題カードをvhで固定 → どの問題でも高さ不変 → ボタン位置が固定 */
+      body.quiz-active .q-card {
+        flex: 0 0 32vh;
+        height: 32vh;
+        max-height: 32vh;
+        overflow-y: auto;
+      }
+      /* ログが残りのスペースを埋める（上限155px） */
       body.quiz-active .quiz-log {
-        flex: 0 0 155px;   /* grow禁止・shrink禁止・高さ固定 */
-        height: 155px;
+        flex: 1 1 0;
+        min-height: 60px;
         max-height: 155px;
-        min-height: 0;
-        overflow: hidden;  /* 枠外へのはみ出しを遮断 */
+        height: auto;
+        overflow: hidden;
       }
       body.quiz-active .log-list {
-        height: calc(155px - 37px); /* heading分を引いた残り */
-        max-height: calc(155px - 37px);
+        height: calc(100% - 37px);
         overflow-y: auto;
         overflow-x: hidden;
       }
